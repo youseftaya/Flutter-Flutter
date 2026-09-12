@@ -6,7 +6,7 @@ import 'favourite_screen.dart';
 import 'log_in_screen.dart';
 
 class AccountScreen extends StatefulWidget {
-  const AccountScreen({Key? key}) : super(key: key);
+  const AccountScreen({super.key});
 
   @override
   State<AccountScreen> createState() => _AccountScreenState();

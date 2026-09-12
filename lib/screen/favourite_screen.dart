@@ -19,7 +19,7 @@ class FavouriteItem {
 }
 
 class FavouriteScreen extends StatefulWidget {
-  const FavouriteScreen({Key? key}) : super(key: key);
+  const FavouriteScreen({super.key});
 
   @override
   State<FavouriteScreen> createState() => _FavouriteScreenState();
