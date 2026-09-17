@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'product_details_screen.dart';
 import 'explore_screen.dart';
 import 'search_screen.dart';
 import 'cart_screen.dart';
 import 'favourite_screen.dart';
 import 'account_screen.dart';
+
+import '../widgets/section_header.dart';
+import '../widgets/product_card.dart';
+import '../widgets/category_card.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -271,8 +274,6 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
 
-      // ================= Bottom Navigation =================
-
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: 0,
@@ -280,12 +281,10 @@ class HomeScreen extends StatelessWidget {
         unselectedItemColor: const Color(0xff181725),
 
         onTap: (index) {
-          // Shop
           if (index == 0) {
             return;
           }
 
-          // Explore
           if (index == 1) {
             Navigator.push(
               context,
@@ -295,7 +294,6 @@ class HomeScreen extends StatelessWidget {
             );
           }
 
-          // Cart
           if (index == 2) {
             Navigator.push(
               context,
@@ -305,7 +303,6 @@ class HomeScreen extends StatelessWidget {
             );
           }
 
-          // Favourite
           if (index == 3) {
             Navigator.push(
               context,
@@ -315,7 +312,6 @@ class HomeScreen extends StatelessWidget {
             );
           }
 
-          // Account
           if (index == 4) {
             Navigator.push(
               context,
@@ -335,7 +331,6 @@ class HomeScreen extends StatelessWidget {
             ),
             label: "Shop",
           ),
-
           BottomNavigationBarItem(
             icon: Image.asset(
               "assets/icons/Group 3.png",
@@ -344,7 +339,6 @@ class HomeScreen extends StatelessWidget {
             ),
             label: "Explore",
           ),
-
           BottomNavigationBarItem(
             icon: Image.asset(
               "assets/icons/Vector(2).png",
@@ -353,7 +347,6 @@ class HomeScreen extends StatelessWidget {
             ),
             label: "Cart",
           ),
-
           BottomNavigationBarItem(
             icon: Image.asset(
               "assets/icons/bookmark 1.png",
@@ -362,7 +355,6 @@ class HomeScreen extends StatelessWidget {
             ),
             label: "Favorite",
           ),
-
           BottomNavigationBarItem(
             icon: Image.asset(
               "assets/icons/Vector(3).png",
@@ -370,228 +362,6 @@ class HomeScreen extends StatelessWidget {
               height: 24,
             ),
             label: "Account",
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// =====================================================
-// Section Header
-// =====================================================
-
-class SectionHeader extends StatelessWidget {
-  final String title;
-
-  const SectionHeader({
-    super.key,
-    required this.title,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.w600,
-            color: Color(0xff181725),
-          ),
-        ),
-        const Text(
-          "See all",
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: Color(0xff53B175),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-// =====================================================
-// Product Card
-// =====================================================
-
-class ProductCard extends StatefulWidget {
-  final String imagePath;
-  final String title;
-  final String subtitle;
-  final String price;
-
-  const ProductCard({
-    super.key,
-    required this.imagePath,
-    required this.title,
-    required this.subtitle,
-    required this.price,
-  });
-
-  @override
-  State<ProductCard> createState() => _ProductCardState();
-}
-
-class _ProductCardState extends State<ProductCard> {
-  final AudioPlayer _player = AudioPlayer();
-
-  Future<void> playClickSound() async {
-    await _player.play(
-      AssetSource(
-        'dragon-studio-pop-402324(1).mp3',
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    _player.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ProductDetailsScreen(
-              imagePath: widget.imagePath,
-              title: widget.title,
-              subtitle: widget.subtitle,
-              price: widget.price,
-            ),
-          ),
-        );
-      },
-      child: Container(
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(
-            color: const Color(0xffE2E2E2),
-          ),
-          color: Colors.white,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Image.asset(
-              widget.imagePath,
-              height: 90,
-              width: double.infinity,
-              fit: BoxFit.contain,
-            ),
-
-            const SizedBox(height: 10),
-
-            Text(
-              widget.title,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Color(0xff181725),
-              ),
-            ),
-
-            Text(
-              widget.subtitle,
-              style: const TextStyle(
-                fontSize: 14,
-                color: Color(0xff7C7C7C),
-              ),
-            ),
-
-            const SizedBox(height: 15),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  widget.price,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xff181725),
-                  ),
-                ),
-
-                GestureDetector(
-                  onTap: playClickSound,
-                  child: Container(
-                    height: 45,
-                    width: 45,
-                    decoration: BoxDecoration(
-                      color: const Color(0xff53B175),
-                      borderRadius: BorderRadius.circular(17),
-                    ),
-                    child: const Icon(
-                      Icons.add,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// =====================================================
-// Category Card
-// =====================================================
-
-class CategoryCard extends StatelessWidget {
-  final String title;
-  final String imagePath;
-  final Color color;
-
-  const CategoryCard({
-    super.key,
-    required this.title,
-    required this.imagePath,
-    required this.color,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 248,
-      height: 105,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(18),
-      ),
-      child: Row(
-        children: [
-          Image.asset(
-            imagePath,
-            width: 70,
-            height: 70,
-            fit: BoxFit.contain,
-          ),
-
-          const SizedBox(width: 15),
-
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Color(0xff181725),
-            ),
           ),
         ],
       ),
